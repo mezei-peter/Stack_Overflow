@@ -19,6 +19,7 @@ public class InitDatabase implements InitProvider {
         try (Connection connection = database.getConnection();
         Statement statement = connection.createStatement()) {
             createTables(statement);
+            addConstraintsToTables(statement);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -28,6 +29,17 @@ public class InitDatabase implements InitProvider {
         try {
             for (String createStatement : TableStatement.STATEMENTS) {
                 statement.execute(createStatement);
+            }
+            System.out.println("Postgre tables created!");
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+    }
+
+    private void addConstraintsToTables(Statement statement) throws SQLException {
+        try {
+            for (String constraint : TableConstraint.CONSTRAINTS) {
+                statement.execute(constraint);
             }
             System.out.println("Postgre tables created!");
         } catch (SQLException e) {
