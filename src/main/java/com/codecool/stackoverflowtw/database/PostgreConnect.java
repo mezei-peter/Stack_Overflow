@@ -5,12 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Arrays;
 
-public class DatabasePostgre implements Database {
+public class PostgreConnect implements ConnectionProvider {
     private final String URL;
     private final String username;
     private final String password;
 
-    public DatabasePostgre(String URL, String username, String password) {
+    public PostgreConnect(String URL, String username, String password) {
         this.URL = URL;
         this.username = username;
         this.password = password;
@@ -21,9 +21,12 @@ public class DatabasePostgre implements Database {
             System.out.println("lefutott a connection a db-hez!");
             return connection;
         }
-        catch(SQLException e) {
+        catch (SQLException e) {
             System.err.println("lerobbant a konnektelés papi " + Arrays.toString(e.getStackTrace()));
             throw new SQLException(e);
         }
     }
+
+
+
 }
