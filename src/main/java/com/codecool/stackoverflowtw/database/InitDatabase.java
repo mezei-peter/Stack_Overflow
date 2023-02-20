@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 
-@Component
 public class InitDatabase implements InitProvider {
     private final ConnectionProvider database;
 
-    @Autowired
     public InitDatabase(ConnectionProvider database) {
         this.database = database;
     }
@@ -19,9 +18,20 @@ public class InitDatabase implements InitProvider {
     public void initializeDB() {
         try (Connection connection = database.getConnection();
         Statement statement = connection.createStatement()) {
-            connection.createStatement();
+            createTables(statement);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void createTables(Statement statement) throws SQLException {
+        try {
+            for (String createStatement : TableStatement.STATEMENTS) {
+                statement.execute(createStatement);
+            }
+            System.out.println("Postgre tables created!");
+        } catch (SQLException e) {
+            throw new SQLException(e);
         }
     }
 }

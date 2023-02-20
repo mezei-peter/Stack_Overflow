@@ -1,7 +1,9 @@
 package com.codecool.stackoverflowtw.database;
 
+import java.util.List;
+
 public abstract class TableStatement {
-    static final String QUESTIONS_CREATE = """
+    private static final String QUESTIONS_CREATE = """
             CREATE TABLE [IF NOT EXISTS] Questions (
                 question_id SERIAL PRIMARY KEY,
                 title varchar(100),
@@ -9,7 +11,7 @@ public abstract class TableStatement {
                 user_id integer,
                 posted timestamptz);
             """;
-    static final String ANSWERS_CREATE = """
+    private static final String ANSWERS_CREATE = """
             CREATE TABLE [IF NOT EXISTS] Answers (
                 answer_id SERIAL PRIMARY KEY,
                 question_id integer,
@@ -18,7 +20,7 @@ public abstract class TableStatement {
                 user_id integer,
                 posted timestamptz);
             """;
-    static final String USERS_CREATE = """
+    private static final String USERS_CREATE = """
             CREATE TABLE [IF NOT EXISTS] Users (
                 user_id SERIAL PRIMARY KEY,
                 is_super_user boolean,
@@ -26,4 +28,5 @@ public abstract class TableStatement {
                 password TEXT,
                 registered timestamptz);
             """;
+    static final List<String> STATEMENTS = List.of(QUESTIONS_CREATE, ANSWERS_CREATE, USERS_CREATE);
 }

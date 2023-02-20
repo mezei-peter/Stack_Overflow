@@ -9,6 +9,7 @@ import java.sql.SQLException;
 public class StackoverflowTwApplication {
 
     public static void main(String[] args) throws SQLException {
+
         SpringApplication.run(StackoverflowTwApplication.class, args);
     }
 }
