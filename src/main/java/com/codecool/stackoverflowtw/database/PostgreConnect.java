@@ -17,7 +17,8 @@ public class PostgreConnect implements ConnectionProvider {
     }
     @Override
     public Connection getConnection() throws SQLException {
-        try (Connection connection = DriverManager.getConnection(URL, username, password)) {
+        try {
+            Connection connection = DriverManager.getConnection(URL, username, password);
             System.out.println("lefutott a connection a db-hez!");
             return connection;
         }

@@ -1,9 +1,8 @@
 package com.codecool.stackoverflowtw.service;
 
-import com.codecool.stackoverflowtw.dao.QuestionsDAO;
 import com.codecool.stackoverflowtw.controller.dto.NewQuestionDTO;
 import com.codecool.stackoverflowtw.controller.dto.QuestionDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codecool.stackoverflowtw.dao.QuestionsDAO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,7 +13,6 @@ public class QuestionService {
 
     private QuestionsDAO questionsDAO;
 
-    @Autowired
     public QuestionService(QuestionsDAO questionsDAO) {
         this.questionsDAO = questionsDAO;
     }
