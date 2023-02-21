@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS Questions
 (
     question_id SERIAL PRIMARY KEY,
+    votes       integer,
     title       varchar(100),
     description TEXT,
     user_id     integer,
@@ -39,3 +40,12 @@ ALTER TABLE Answers
     DROP CONSTRAINT IF EXISTS fk_question_to_answers;
 ALTER TABLE Answers
     ADD CONSTRAINT fk_question_to_answers FOREIGN KEY (question_id) REFERENCES Questions (question_id);
+
+INSERT INTO Users (is_super_user, name, password, registered)
+VALUES (FALSE, 'testName', 'testName', '2016-06-22 19:10:25-07');
+
+INSERT INTO Questions (title, votes, description, user_id, posted)
+VALUES ('What is the meaning of life?', 2, 'Please guys help', 1, '2016-06-22 19:10:25-07');
+
+INSERT INTO Answers (question_id, votes, description, user_id, posted)
+VALUES (1, -2, 'Yes', 1, '2016-06-22 19:10:25-07');
