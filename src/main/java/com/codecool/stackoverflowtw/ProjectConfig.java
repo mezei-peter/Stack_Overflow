@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ProjectConfig {
     @Bean
-    public QuestionsDAO questionsDAO() {
-        return new QuestionsDaoJdbc();
+    public QuestionsDAO questionsDAO(ConnectionProvider connectionProvider) {
+        return new QuestionsDaoJdbc(connectionProvider);
     }
 
     @Bean
