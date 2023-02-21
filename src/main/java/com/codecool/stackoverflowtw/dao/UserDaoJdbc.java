@@ -24,6 +24,11 @@ public class UserDaoJdbc implements UserDao {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public String getUsernameByUserId(int userId) {
+        return getUserById(userId).getName();
+    }
+
     private Collection<User> getUsersById(Collection<Integer> userIds) {
         return userIds.stream()
                 .map(this::getUserById)
