@@ -6,7 +6,10 @@ import com.codecool.stackoverflowtw.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("questions")
@@ -19,8 +22,14 @@ public class QuestionController {
     }
 
     @GetMapping("/all")
-    public List<QuestionDTO> getAllQuestions() {
-        return questionService.getAllQuestions();
+    public List<QuestionDTO> getAllQuestions(@RequestParam("sort_by") Optional<String> sortBy) {
+        if (sortBy.isEmpty()) {
+            return questionService.getAllQuestions();
+        }
+        //TODO: return sorted list!
+        return List.of(new QuestionDTO(-100, "TESZT","teszt",
+                Timestamp.valueOf(LocalDateTime.now()), -1000, "Teszt János", 909,
+                10));
     }
 
     @GetMapping("/{id}")
