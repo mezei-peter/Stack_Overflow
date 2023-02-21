@@ -33,10 +33,7 @@ public class QuestionController {
         }
         try {
             QuestionSortType sortType = QuestionSortType.valueOf(sortBy.get());
-            //TODO: return sorted list!
-            return List.of(new QuestionDTO(-100, "TESZT","teszt",
-                    Timestamp.valueOf(LocalDateTime.now()), -1000, "Teszt János", 909,
-                    10));
+            return questionService.getSortedQuestions(sortType);
         } catch (Exception e) {
             System.err.println(e);
             throw new ResponseStatusException(HttpStatusCode.valueOf(500));
