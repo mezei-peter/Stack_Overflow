@@ -54,4 +54,8 @@ INSERT INTO Questions (title, votes, description, user_id, posted)
 VALUES ('C_TEST', 2, 'Please guys help', 1, '2015-06-22 19:10:25-07');
 
 INSERT INTO Answers (question_id, votes, description, user_id, posted)
-VALUES (1, -2, 'Yes', 1, '2016-06-22 19:10:25-07');
+VALUES (2, 2, 'Yes', 1, '2016-06-22 19:10:25-07');
+INSERT INTO Answers (question_id, votes, description, user_id, posted)
+VALUES (2, 2, 'Yes', 1, '2016-06-22 19:10:25-07');
+INSERT INTO Answers (question_id, votes, description, user_id, posted)
+VALUES (3, 3, 'Yes', 1, '2016-06-22 19:10:25-07');

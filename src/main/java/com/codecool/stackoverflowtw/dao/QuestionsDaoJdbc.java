@@ -62,7 +62,7 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
     public List<Question> getSortedQuestions(QuestionSortType sortBy) {
         String query = buildOrderByQuery(sortBy);
 
-         try (Connection connection = connectionProvider.getConnection();
+        try (Connection connection = connectionProvider.getConnection();
              Statement statement = connection.createStatement()) {
             List<Question> allQuestions = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery(query);
@@ -79,19 +79,27 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
 
     private String buildOrderByQuery(QuestionSortType sortBy) {
         StringBuilder query = new StringBuilder("""
-                SELECT question_id, votes, title, description, user_id, posted
-                FROM questions
-                    ORDER BY""");
+                SELECT Questions.question_id,
+                                   Questions.votes,
+                                   Questions.title,
+                                   Questions.description,
+                                   Questions.user_id,
+                                   Questions.posted,
+                                   COUNT(answer_id) AS answer_count
+                            FROM questions
+                                     LEFT JOIN Answers
+                                               ON Questions.question_id = Answers.question_id
+                            GROUP BY Questions.question_id, Questions.votes, Questions.title, Questions.description,
+                                     Questions.user_id, Questions.posted
+                            ORDER BY""");
         switch (sortBy) {
-            case ALPHABET_ASC -> query.append(" title ASC;");
-            case ALPHABET_DESC -> query.append(" title DESC;");
-            case DATE_ASC -> query.append(" posted ASC;");
-            case DATE_DESC -> query.append(" posted DESC;");
-            //TODO: sort by answer count is currently wrong!!!
-            case ANSWER_ASC -> query.append(" title ASC;");
-            case ANSWER_DESC -> query.append(" title DESC;");
+            case ALPHABET_ASC -> query.append(" Questions.title ASC;");
+            case ALPHABET_DESC -> query.append(" Questions.title DESC;");
+            case DATE_ASC -> query.append(" Questions.posted ASC;");
+            case DATE_DESC -> query.append(" Questions.posted DESC;");
+            case ANSWER_ASC -> query.append(" answer_count ASC;");
+            case ANSWER_DESC -> query.append(" answer_count DESC;");
         }
-        System.out.println(query);
         return query.toString();
     }
 
