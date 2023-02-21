@@ -5,7 +5,6 @@ import com.codecool.stackoverflowtw.database.ConnectionProvider;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +27,9 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
                 SELECT question_id, votes, title, description, user_id, posted
                 FROM questions;
                 """;
-        
-        try(Connection connection = connectionProvider.getConnection();
-            Statement statement = connection.createStatement()) {
+
+        try (Connection connection = connectionProvider.getConnection();
+             Statement statement = connection.createStatement()) {
             List<Question> allQuestions = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -42,5 +41,25 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Question getQuestionByQuestionId(int questionId) {
+        return null;
+    }
+
+    @Override
+    public boolean postNewQuestion(Question question) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteQuestionByQuestionId(int questionId) {
+        return false;
+    }
+
+    @Override
+    public List<Question> getSortedQuestions(QuestionSortType sortBy) {
+        return null;
     }
 }

@@ -29,6 +29,26 @@ public class UserDaoJdbc implements UserDao {
         return getUserById(userId).getName();
     }
 
+    @Override
+    public User getUserByUserId(int userId) {
+        return null;
+    }
+
+    @Override
+    public boolean postNewUser(User user) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteUserByUserId(int userId) {
+        return false;
+    }
+
+    @Override
+    public User getUserByQuestionId(int questionId) {
+        return null;
+    }
+
     private Collection<User> getUsersById(Collection<Integer> userIds) {
         return userIds.stream()
                 .map(this::getUserById)
