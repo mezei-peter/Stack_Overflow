@@ -62,4 +62,9 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
     public List<Question> getSortedQuestions(QuestionSortType sortBy) {
         return null;
     }
+
+    @Override
+    public int getNumberOfQuestionsByUserId(int userId) {
+        return 0;
+    }
 }
