@@ -2,14 +2,19 @@ package com.codecool.stackoverflowtw.controller;
 
 import com.codecool.stackoverflowtw.controller.dto.NewQuestionDTO;
 import com.codecool.stackoverflowtw.controller.dto.QuestionDTO;
+import com.codecool.stackoverflowtw.dao.QuestionSortType;
 import com.codecool.stackoverflowtw.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("questions")
@@ -26,10 +31,16 @@ public class QuestionController {
         if (sortBy.isEmpty()) {
             return questionService.getAllQuestions();
         }
-        //TODO: return sorted list!
-        return List.of(new QuestionDTO(-100, "TESZT","teszt",
-                Timestamp.valueOf(LocalDateTime.now()), -1000, "Teszt János", 909,
-                10));
+        try {
+            QuestionSortType sortType = QuestionSortType.valueOf(sortBy.get());
+            //TODO: return sorted list!
+            return List.of(new QuestionDTO(-100, "TESZT","teszt",
+                    Timestamp.valueOf(LocalDateTime.now()), -1000, "Teszt János", 909,
+                    10));
+        } catch (Exception e) {
+            System.err.println(e);
+            throw new ResponseStatusException(HttpStatusCode.valueOf(500));
+        }
     }
 
     @GetMapping("/{id}")
