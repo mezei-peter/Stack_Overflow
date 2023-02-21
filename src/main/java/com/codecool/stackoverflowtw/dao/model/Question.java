@@ -19,6 +19,15 @@ public class Question {
         this.posted = posted;
     }
 
+    public Question(int votes, String title, String description, int userId) {
+        questionId = 0;
+        this.votes = votes;
+        this.title = title;
+        this.description = description;
+        this.userId = userId;
+        this.posted = null;
+    }
+
     public int getQuestionId() {
         return questionId;
     }
