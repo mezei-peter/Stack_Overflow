@@ -1,5 +1,7 @@
 package com.codecool.stackoverflowtw.controller.dto;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
-public record QuestionDTO(int id, String title, String description, LocalDateTime created) {}
+public record QuestionDTO(int questionId, String title, String description, Timestamp created, int userId,
+                          String username, int votes, int numberOfAnswers) {
+}
