@@ -60,6 +60,51 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
 
     @Override
     public List<Question> getSortedQuestions(QuestionSortType sortBy) {
-        return null;
+        String query = buildOrderByQuery(sortBy);
+
+        try (Connection connection = connectionProvider.getConnection();
+             Statement statement = connection.createStatement()) {
+            List<Question> allQuestions = new ArrayList<>();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                allQuestions.add(new Question(resultSet.getInt("question_id"), resultSet.getInt("votes"),
+                        resultSet.getString("title"), resultSet.getString("description"),
+                        resultSet.getInt("user_id"), resultSet.getTimestamp("posted")));
+            }
+            return allQuestions;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String buildOrderByQuery(QuestionSortType sortBy) {
+        StringBuilder query = new StringBuilder("""
+                SELECT Questions.question_id,
+                                   Questions.votes,
+                                   Questions.title,
+                                   Questions.description,
+                                   Questions.user_id,
+                                   Questions.posted,
+                                   COUNT(answer_id) AS answer_count
+                            FROM questions
+                                     LEFT JOIN Answers
+                                               ON Questions.question_id = Answers.question_id
+                            GROUP BY Questions.question_id, Questions.votes, Questions.title, Questions.description,
+                                     Questions.user_id, Questions.posted
+                            ORDER BY""");
+        switch (sortBy) {
+            case ALPHABET_ASC -> query.append(" Questions.title ASC;");
+            case ALPHABET_DESC -> query.append(" Questions.title DESC;");
+            case DATE_ASC -> query.append(" Questions.posted ASC;");
+            case DATE_DESC -> query.append(" Questions.posted DESC;");
+            case ANSWER_ASC -> query.append(" answer_count ASC;");
+            case ANSWER_DESC -> query.append(" answer_count DESC;");
+        }
+        return query.toString();
+    }
+
+    @Override
+    public int getNumberOfQuestionsByUserId(int userId) {
+        return 0;
     }
 }
