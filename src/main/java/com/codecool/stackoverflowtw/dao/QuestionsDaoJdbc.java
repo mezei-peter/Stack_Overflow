@@ -4,6 +4,7 @@ import com.codecool.stackoverflowtw.dao.model.Question;
 import com.codecool.stackoverflowtw.database.ConnectionProvider;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -46,8 +47,24 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
     }
 
     @Override
-    public Question getQuestionByQuestionId(int questionId) {
-        return null;
+    public Question getQuestionByQuestionId(int id) {
+        String query = """
+                SELECT question_id, votes, title, description, user_id, posted
+                FROM questions
+                WHERE questions.question_id = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return new Question(resultSet.getInt("question_id"), resultSet.getInt("votes"),
+                    resultSet.getString("title"), resultSet.getString("description"),
+                    resultSet.getInt("user_id"), resultSet.getTimestamp("posted"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -128,6 +145,28 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
                 answerCountsByQuestionIds.put(resultSet.getInt("id"), resultSet.getInt("count"));
             }
             return answerCountsByQuestionIds;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int getAnswerCountByQuestionId(int id) {
+        String query = """
+                SELECT COUNT(answer_id) AS count
+                FROM questions
+                         LEFT JOIN Answers
+                                   ON Questions.question_id = Answers.question_id
+                WHERE questions.question_id = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            System.out.println(resultSet.getInt("count"));
+            return resultSet.getInt("count");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

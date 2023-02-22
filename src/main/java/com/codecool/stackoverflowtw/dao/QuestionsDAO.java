@@ -17,4 +17,6 @@ public interface QuestionsDAO {
     int getNumberOfQuestionsByUserId(int userId);
 
     Map<Integer, Integer> getAnswerCountsByQuestionIds();
+
+    int getAnswerCountByQuestionId(int id);
 }
