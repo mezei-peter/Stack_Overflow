@@ -1,4 +1,4 @@
-package com.codecool.stackoverflowtw.dao;
+package com.codecool.stackoverflowtw.dao.answer;
 
 import com.codecool.stackoverflowtw.dao.model.Answer;
 import com.codecool.stackoverflowtw.database.ConnectionProvider;
@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AnswerDaoJdbc implements AnswersDao{
+public class AnswerDaoJdbc implements AnswersDao {
 
     ConnectionProvider connectionProvider;
 
@@ -57,6 +57,25 @@ public class AnswerDaoJdbc implements AnswersDao{
             return rs.getInt("answer_count");
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void createNewAnswer(Answer answer) {
+        String query = "Insert into answers (question_id, votes, description, user_id, posted) " +
+                "Values(?, ?, ?, ?, ?);";
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query);
+        ) {
+            ps.setInt(2, answer.getUserId());
+            ps.setInt(3, answer.getVotes());
+            ps.setString(4, answer.getDescritpion());
+            ps.setInt(5, answer.getUserId());
+            ps.setTimestamp(6, answer.getPosted());
+
+            ps.executeQuery();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
