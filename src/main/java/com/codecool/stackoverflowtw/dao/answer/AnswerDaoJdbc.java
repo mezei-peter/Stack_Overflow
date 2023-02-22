@@ -44,7 +44,18 @@ public class AnswerDaoJdbc implements AnswersDao {
 
     @Override
     public int getNumberOfAnswersByUserId(int userId) {
-        return 0;
+        int result = 0;
+        String query = "SELECT COUNT(answer_id) FROM Answers WHERE user_id = ?;";
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ResultSet resultSet = ps.executeQuery();
+            resultSet.next();
+            result = resultSet.getInt("count");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
     public int getAnswerCountByQuestionId(int quesionId) {
