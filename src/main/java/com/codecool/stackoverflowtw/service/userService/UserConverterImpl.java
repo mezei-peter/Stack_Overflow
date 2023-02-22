@@ -1,8 +1,8 @@
 package com.codecool.stackoverflowtw.service.userService;
 
 import com.codecool.stackoverflowtw.controller.dto.UserDTO;
-import com.codecool.stackoverflowtw.dao.AnswersDao;
 import com.codecool.stackoverflowtw.dao.QuestionsDAO;
+import com.codecool.stackoverflowtw.dao.answer.AnswersDao;
 import com.codecool.stackoverflowtw.dao.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
