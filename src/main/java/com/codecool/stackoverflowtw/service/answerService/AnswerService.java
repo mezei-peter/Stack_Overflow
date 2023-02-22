@@ -7,6 +7,7 @@ import com.codecool.stackoverflowtw.dao.model.Answer;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 @Service
 public class AnswerService {
@@ -28,5 +29,12 @@ public class AnswerService {
     public void createNewAnswer(NewAnswerDTO newAnswerDTO) {
         Answer convertedAnswer = answerConverter.convertNewAnswerDTOtoAnswer(newAnswerDTO);
         answersDao.createNewAnswer(convertedAnswer);
+    }
+
+    public void deleteAnserByAnswerId(int answerId) throws NoSuchElementException {
+        boolean isSuccess = answersDao.deleteAnswerByAnswerId(answerId);
+        if(!isSuccess) throw new NoSuchElementException("Question with id: " + answerId + " not " +
+                "found.");
+
     }
 }
