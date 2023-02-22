@@ -10,4 +10,6 @@ import java.util.Map;
 public interface QuestionConverter {
     List<QuestionDTO> convertQuestionsToQuestionDTOs(Collection<Question> originalQuestions,
                                                      Map<Integer, Integer> answerCountsByQuestionIds);
+
+    QuestionDTO convertQuestionToQuestionDTO(Question question, int answerCount);
 }

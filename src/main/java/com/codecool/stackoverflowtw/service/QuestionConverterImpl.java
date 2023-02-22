@@ -34,4 +34,18 @@ public class QuestionConverterImpl implements QuestionConverter {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public QuestionDTO convertQuestionToQuestionDTO(Question question, int answerCount) {
+        return new QuestionDTO(
+                question.getQuestionId(),
+                question.getTitle(),
+                question.getDescription(),
+                question.getPosted(),
+                question.getUserId(),
+                userDao.getUsernameByUserId(question.getUserId()),
+                question.getVotes(),
+                answerCount
+        );
+    }
 }

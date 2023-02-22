@@ -34,9 +34,8 @@ public class QuestionService {
     }
 
     public QuestionDTO getQuestionById(int id) {
-        // TODO
-        questionsDAO.sayHi();
-        return null;
+        int answerCount = questionsDAO.getAnswerCountByQuestionId(id);
+        return questionConverter.convertQuestionToQuestionDTO(questionsDAO.getQuestionByQuestionId(id), answerCount);
     }
 
     public boolean deleteQuestionById(int id) {

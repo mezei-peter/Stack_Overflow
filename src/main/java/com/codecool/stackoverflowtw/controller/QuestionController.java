@@ -42,7 +42,7 @@ public class QuestionController {
 
     @GetMapping("/{id}")
     public QuestionDTO getQuestionById(@PathVariable int id) {
-        return null;
+        return questionService.getQuestionById(id);
     }
 
     @PostMapping("/")
