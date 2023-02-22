@@ -3,6 +3,7 @@ package com.codecool.stackoverflowtw.dao;
 import com.codecool.stackoverflowtw.dao.model.Question;
 
 import java.util.List;
+import java.util.Map;
 
 public interface QuestionsDAO {
     void sayHi();
@@ -14,4 +15,6 @@ public interface QuestionsDAO {
     boolean deleteQuestionByQuestionId(int questionId);
     List<Question> getSortedQuestions(QuestionSortType sortBy);
     int getNumberOfQuestionsByUserId(int userId);
+
+    Map<Integer, Integer> getAnswerCountsByQuestionIds();
 }
