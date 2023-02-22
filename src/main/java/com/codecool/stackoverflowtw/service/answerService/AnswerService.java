@@ -37,4 +37,9 @@ public class AnswerService {
                 "found.");
 
     }
+
+    public void updateAnswerDescritpionNyAnswerId(int answerId, String description) throws NoSuchElementException {
+        boolean successfullUpdate = answersDao.updateAnswerDescription(answerId, description);
+        if(!successfullUpdate) throw  new NoSuchElementException("Couldn't update question");
+    }
 }
