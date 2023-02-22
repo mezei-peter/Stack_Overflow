@@ -7,7 +7,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QuestionsDaoJdbc implements QuestionsDAO {
     private final ConnectionProvider connectionProvider;
@@ -106,5 +108,28 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
     @Override
     public int getNumberOfQuestionsByUserId(int userId) {
         return 0;
+    }
+
+    @Override
+    public Map<Integer, Integer> getAnswerCountsByQuestionIds() {
+        String query = """
+                SELECT Questions.question_id AS id, COUNT(answer_id) AS count
+                FROM questions
+                         LEFT JOIN Answers
+                                   ON Questions.question_id = Answers.question_id
+                GROUP BY id;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             Statement statement = connection.createStatement()) {
+            Map<Integer, Integer> answerCountsByQuestionIds = new HashMap<>();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                answerCountsByQuestionIds.put(resultSet.getInt("id"), resultSet.getInt("count"));
+            }
+            return answerCountsByQuestionIds;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
