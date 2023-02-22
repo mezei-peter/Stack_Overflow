@@ -108,8 +108,4 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
         return 0;
     }
 
-    @Override
-    public int getNumberOfQuestionsByUserId(int userId) {
-        return 0;
-    }
 }

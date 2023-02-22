@@ -33,7 +33,7 @@ public class AnswerConverterImpl implements AnswerConverter {
 
     @Override
     public Answer convertNewAnswerDTOtoAnswer(NewAnswerDTO newAnswers) {
-        return new Answer(newAnswers.questionId(), newAnswers.description(),
-                newAnswers.answerPosterId());
+        return new Answer(newAnswers.question_id(), newAnswers.description(),
+                newAnswers.answer_poster_id());
     }
 }

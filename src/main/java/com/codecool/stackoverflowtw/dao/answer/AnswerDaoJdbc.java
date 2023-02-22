@@ -67,12 +67,12 @@ public class AnswerDaoJdbc implements AnswersDao {
         try (Connection connection = connectionProvider.getConnection();
              PreparedStatement ps = connection.prepareStatement(query);
         ) {
-            ps.setInt(2, answer.getQuestionId());
-            ps.setInt(3, answer.getVotes());
-            ps.setString(4, answer.getDescription());
-            ps.setInt(5, answer.getUserId());
+            ps.setInt(1, answer.getQuestionId());
+            ps.setInt(2, answer.getVotes());
+            ps.setString(3, answer.getDescription());
+            ps.setInt(4, answer.getUserId());
 
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
