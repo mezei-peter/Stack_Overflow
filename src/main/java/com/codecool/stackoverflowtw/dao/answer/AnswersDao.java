@@ -9,4 +9,5 @@ public interface AnswersDao {
     Collection<Answer> getAnswersByQuestionId(int questionId);
     int getNumberOfAnswersByUserId(int userId);
     void createNewAnswer(Answer answer);
+    boolean deleteAnswersByQuestionId(int questionId);
 }

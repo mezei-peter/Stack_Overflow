@@ -77,4 +77,9 @@ public class AnswerDaoJdbc implements AnswersDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public boolean deleteAnswersByQuestionId(int questionId) {
+        return false;
+    }
 }
