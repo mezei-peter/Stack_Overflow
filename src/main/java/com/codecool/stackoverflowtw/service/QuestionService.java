@@ -57,9 +57,8 @@ public class QuestionService {
         return false;
     }
 
-    public int addNewQuestion(NewQuestionDTO question) {
-        // TODO
-        int createdId = 0;
-        return createdId;
+    public int addNewQuestion(NewQuestionDTO newQuestionDTO) {
+        Question newQuestion = questionConverter.convertNewQuestionDtoToQuestion(newQuestionDTO);
+        return questionsDAO.postNewQuestion(newQuestion);
     }
 }

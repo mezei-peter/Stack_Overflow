@@ -2,6 +2,7 @@ package com.codecool.stackoverflowtw.service;
 
 import com.codecool.stackoverflowtw.controller.dto.AnswerDTO;
 import com.codecool.stackoverflowtw.controller.dto.DetailedQuestionDTO;
+import com.codecool.stackoverflowtw.controller.dto.NewQuestionDTO;
 import com.codecool.stackoverflowtw.controller.dto.QuestionDTO;
 import com.codecool.stackoverflowtw.dao.model.Question;
 
@@ -17,4 +18,6 @@ public interface QuestionConverter {
 
     DetailedQuestionDTO convertQuestionToDetailedQuestionDTO(Question questionByQuestionId, int answerCount,
                                                              Collection<AnswerDTO> answerDTOs);
+
+    Question convertNewQuestionDtoToQuestion(NewQuestionDTO newQuestionDTO);
 }

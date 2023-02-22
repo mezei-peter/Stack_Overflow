@@ -3,10 +3,9 @@ package com.codecool.stackoverflowtw.dao;
 import com.codecool.stackoverflowtw.dao.model.Question;
 import com.codecool.stackoverflowtw.database.ConnectionProvider;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,8 +67,29 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
     }
 
     @Override
-    public boolean postNewQuestion(Question question) {
-        return false;
+    public int postNewQuestion(Question question) {
+        String insert = """
+                INSERT INTO questions(votes, title, description, user_id)
+                VALUES(?, ?, ?, ?);
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(insert, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            statement.setInt(1, question.getVotes());
+            statement.setString(2, question.getTitle());
+            statement.setString(3, question.getDescription());
+            statement.setInt(4, question.getUserId());
+
+            statement.execute();
+            ResultSet rs = statement.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+            return generatedKey;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
