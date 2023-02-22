@@ -102,7 +102,6 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
              PreparedStatement statement = connection.prepareStatement(delete)) {
             statement.setInt(1, questionId);
             int deletedRowCount = statement.executeUpdate();
-            System.out.println(deletedRowCount);
             if (deletedRowCount > 1) {
                 throw new RuntimeException("Deleted more rows from the questions table than necessary!");
             }

@@ -118,7 +118,6 @@ public class AnswerDaoJdbc implements AnswersDao {
         try(Connection connection = connectionProvider.getConnection();
             PreparedStatement ps = connection.prepareStatement(query);
         ) {
-            ps.executeQuery(query);
             ps.setInt(1, questionId);
 
             ResultSet rs = ps.executeQuery();
