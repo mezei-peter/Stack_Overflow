@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS active_sessions;
+DROP TABLE IF EXISTS answers;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE IF NOT EXISTS Questions
 (
     question_id SERIAL PRIMARY KEY,
@@ -5,7 +10,7 @@ CREATE TABLE IF NOT EXISTS Questions
     title       varchar(100),
     description TEXT,
     user_id     integer,
-    posted      timestamptz default(current_timestamp)
+    posted      timestamptz default (current_timestamp)
 );
 
 CREATE TABLE IF NOT EXISTS Answers
@@ -15,7 +20,7 @@ CREATE TABLE IF NOT EXISTS Answers
     votes       integer,
     description TEXT,
     user_id     integer,
-    posted      timestamptz default(current_timestamp)
+    posted      timestamptz default (current_timestamp)
 );
 
 CREATE TABLE IF NOT EXISTS Users
@@ -24,7 +29,14 @@ CREATE TABLE IF NOT EXISTS Users
     is_super_user boolean,
     name          TEXT,
     password      TEXT,
-    registered    timestamptz default(current_timestamp)
+    registered    timestamptz default (current_timestamp)
+);
+
+CREATE TABLE IF NOT EXISTS active_sessions
+(
+    session_id CHAR(36) PRIMARY KEY,
+    user_id    INTEGER,
+    started    timestamptz default (current_timestamp)
 );
 
 ALTER TABLE Questions
@@ -40,6 +52,11 @@ ALTER TABLE Answers
     DROP CONSTRAINT IF EXISTS fk_question_to_answers;
 ALTER TABLE Answers
     ADD CONSTRAINT fk_question_to_answers FOREIGN KEY (question_id) REFERENCES Questions (question_id);
+
+ALTER TABLE active_sessions
+    DROP CONSTRAINT IF EXISTS fk_user_to_active_session;
+ALTER TABLE active_sessions
+    ADD CONSTRAINT fk_user_to_active_session FOREIGN KEY (user_id) REFERENCES users (user_id);
 
 INSERT INTO Users (is_super_user, name, password)
 VALUES (FALSE, 'testName', 'testName');
