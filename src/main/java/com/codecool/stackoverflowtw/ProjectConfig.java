@@ -1,7 +1,8 @@
 package com.codecool.stackoverflowtw;
 
 import com.codecool.stackoverflowtw.dao.*;
-import com.codecool.stackoverflowtw.dao.model.User;
+import com.codecool.stackoverflowtw.dao.answer.AnswerDaoJdbc;
+import com.codecool.stackoverflowtw.dao.answer.AnswersDao;
 import com.codecool.stackoverflowtw.database.ConnectionProvider;
 import com.codecool.stackoverflowtw.database.PostgreConnect;
 import com.codecool.stackoverflowtw.service.QuestionConverter;

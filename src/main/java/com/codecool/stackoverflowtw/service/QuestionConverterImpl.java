@@ -1,5 +1,8 @@
 package com.codecool.stackoverflowtw.service;
 
+import com.codecool.stackoverflowtw.controller.dto.AnswerDTO;
+import com.codecool.stackoverflowtw.controller.dto.DetailedQuestionDTO;
+import com.codecool.stackoverflowtw.controller.dto.NewQuestionDTO;
 import com.codecool.stackoverflowtw.controller.dto.QuestionDTO;
 import com.codecool.stackoverflowtw.dao.UserDao;
 import com.codecool.stackoverflowtw.dao.model.Question;
@@ -33,5 +36,40 @@ public class QuestionConverterImpl implements QuestionConverter {
                     );
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public QuestionDTO convertQuestionToQuestionDTO(Question question, int answerCount) {
+        return new QuestionDTO(
+                question.getQuestionId(),
+                question.getTitle(),
+                question.getDescription(),
+                question.getPosted(),
+                question.getUserId(),
+                userDao.getUsernameByUserId(question.getUserId()),
+                question.getVotes(),
+                answerCount
+        );
+    }
+
+    @Override
+    public DetailedQuestionDTO convertQuestionToDetailedQuestionDTO(Question question, int answerCount,
+                                                                    Collection<AnswerDTO> answerDTOs) {
+        return new DetailedQuestionDTO(
+                question.getQuestionId(),
+                question.getTitle(),
+                question.getDescription(),
+                question.getPosted(),
+                question.getUserId(),
+                userDao.getUsernameByUserId(question.getUserId()),
+                question.getVotes(),
+                answerCount,
+                answerDTOs
+        );
+    }
+
+    @Override
+    public Question convertNewQuestionDtoToQuestion(NewQuestionDTO newQuestionDTO) {
+        return new Question(0, newQuestionDTO.title(), newQuestionDTO.description(), newQuestionDTO.userId());
     }
 }

@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS Questions
     title       varchar(100),
     description TEXT,
     user_id     integer,
-    posted      timestamptz
+    posted      timestamptz default(current_timestamp)
 );
 
 CREATE TABLE IF NOT EXISTS Answers
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS Answers
     votes       integer,
     description TEXT,
     user_id     integer,
-    posted      timestamptz
+    posted      timestamptz default(current_timestamp)
 );
 
 CREATE TABLE IF NOT EXISTS Users
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Users
     is_super_user boolean,
     name          TEXT,
     password      TEXT,
-    registered    timestamptz
+    registered    timestamptz default(current_timestamp)
 );
 
 ALTER TABLE Questions
@@ -41,21 +41,21 @@ ALTER TABLE Answers
 ALTER TABLE Answers
     ADD CONSTRAINT fk_question_to_answers FOREIGN KEY (question_id) REFERENCES Questions (question_id);
 
-INSERT INTO Users (is_super_user, name, password, registered)
-VALUES (FALSE, 'testName', 'testName', '2016-06-22 19:10:25-07');
+INSERT INTO Users (is_super_user, name, password)
+VALUES (FALSE, 'testName', 'testName');
 
-INSERT INTO Questions (title, votes, description, user_id, posted)
-VALUES ('What is the meaning of life?', 2, 'Please guys help', 1, '2016-06-22 19:10:25-07');
-INSERT INTO Questions (title, votes, description, user_id, posted)
-VALUES ('A_TEST', 2, 'Please guys help', 1, '2016-06-22 19:10:25-07');
-INSERT INTO Questions (title, votes, description, user_id, posted)
-VALUES ('B_TEST', 2, 'Please guys help', 1, '2017-06-22 19:10:25-07');
-INSERT INTO Questions (title, votes, description, user_id, posted)
-VALUES ('C_TEST', 2, 'Please guys help', 1, '2015-06-22 19:10:25-07');
+INSERT INTO Questions (title, votes, description, user_id)
+VALUES ('What is the meaning of life?', 2, 'Please guys help', 1);
+INSERT INTO Questions (title, votes, description, user_id)
+VALUES ('A_TEST', 2, 'Please guys help', 1);
+INSERT INTO Questions (title, votes, description, user_id)
+VALUES ('B_TEST', 2, 'Please guys help', 1);
+INSERT INTO Questions (title, votes, description, user_id)
+VALUES ('C_TEST', 2, 'Please guys help', 1);
 
-INSERT INTO Answers (question_id, votes, description, user_id, posted)
-VALUES (2, 2, 'Yes', 1, '2016-06-22 19:10:25-07');
-INSERT INTO Answers (question_id, votes, description, user_id, posted)
-VALUES (2, 2, 'Yes', 1, '2016-06-22 19:10:25-07');
-INSERT INTO Answers (question_id, votes, description, user_id, posted)
-VALUES (3, 3, 'Yes', 1, '2016-06-22 19:10:25-07');
+INSERT INTO Answers (question_id, votes, description, user_id)
+VALUES (2, 2, 'Yes', 1);
+INSERT INTO Answers (question_id, votes, description, user_id)
+VALUES (2, 2, 'Yes', 1);
+INSERT INTO Answers (question_id, votes, description, user_id)
+VALUES (3, 3, 'Yes', 1);

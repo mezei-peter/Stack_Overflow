@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,18 +50,69 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
     }
 
     @Override
-    public Question getQuestionByQuestionId(int questionId) {
-        return null;
+    public Question getQuestionByQuestionId(int id) {
+        String query = """
+                SELECT question_id, votes, title, description, user_id, posted
+                FROM questions
+                WHERE questions.question_id = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return new Question(resultSet.getInt("question_id"), resultSet.getInt("votes"),
+                    resultSet.getString("title"), resultSet.getString("description"),
+                    resultSet.getInt("user_id"), resultSet.getTimestamp("posted"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public boolean postNewQuestion(Question question) {
-        return false;
+    public int postNewQuestion(Question question) {
+        String insert = """
+                INSERT INTO questions(votes, title, description, user_id)
+                VALUES(?, ?, ?, ?);
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(insert, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            statement.setInt(1, question.getVotes());
+            statement.setString(2, question.getTitle());
+            statement.setString(3, question.getDescription());
+            statement.setInt(4, question.getUserId());
+
+            statement.execute();
+            ResultSet rs = statement.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+            return generatedKey;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public boolean deleteQuestionByQuestionId(int questionId) {
-        return false;
+        String delete = """
+                DELETE FROM questions WHERE question_id = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(delete)) {
+            statement.setInt(1, questionId);
+            int deletedRowCount = statement.executeUpdate();
+            if (deletedRowCount > 1) {
+                throw new RuntimeException("Deleted more rows from the questions table than necessary!");
+            }
+            return deletedRowCount == 1;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -140,6 +194,28 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
                 answerCountsByQuestionIds.put(resultSet.getInt("id"), resultSet.getInt("count"));
             }
             return answerCountsByQuestionIds;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int getAnswerCountByQuestionId(int id) {
+        String query = """
+                SELECT COUNT(answer_id) AS count
+                FROM questions
+                         LEFT JOIN Answers
+                                   ON Questions.question_id = Answers.question_id
+                WHERE questions.question_id = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            System.out.println(resultSet.getInt("count"));
+            return resultSet.getInt("count");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
