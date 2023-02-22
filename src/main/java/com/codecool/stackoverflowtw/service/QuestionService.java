@@ -64,6 +64,10 @@ public class QuestionService {
     }
 
     public int addNewQuestion(NewQuestionDTO newQuestionDTO) {
+        boolean isValidSession = activeSessionsDao.validateNewQuestionDTO(newQuestionDTO);
+        if (!isValidSession) {
+            return -1;
+        }
         Question newQuestion = questionConverter.convertNewQuestionDtoToQuestion(newQuestionDTO);
         return questionsDAO.postNewQuestion(newQuestion);
     }
