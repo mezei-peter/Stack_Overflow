@@ -18,9 +18,4 @@ public class AnswerController {
     public AnswerController(AnswerService answerService) {
         this.answerService = answerService;
     }
-
-    @GetMapping("/{id}")
-    public Collection<AnswerDTO> getAllAnswerByQuestionId(@PathVariable int id) {
-        return answerService.getAllAnswers(id);
-    }
 }
