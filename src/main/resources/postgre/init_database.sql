@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS Users
 CREATE TABLE IF NOT EXISTS active_sessions
 (
     session_id CHAR(36) PRIMARY KEY,
-    user_id    INTEGER,
+    user_id    INTEGER UNIQUE,
     started    timestamptz default (current_timestamp)
 );
 
@@ -60,6 +60,10 @@ ALTER TABLE active_sessions
 
 INSERT INTO Users (is_super_user, name, password)
 VALUES (FALSE, 'testName', 'testName');
+INSERT INTO Users (is_super_user, name, password)
+VALUES (FALSE, 'testName2', 'testName2');
+INSERT INTO Users (is_super_user, name, password)
+VALUES (TRUE, 'testAdmin', 'testAdmin');
 
 INSERT INTO Questions (title, votes, description, user_id)
 VALUES ('What is the meaning of life?', 2, 'Please guys help', 1);
@@ -79,3 +83,7 @@ VALUES (3, 3, 'Yes', 1);
 
 INSERT INTO active_sessions (session_id, user_id)
 VALUES ('5fc03087-d265-11e7-b8c6-83e29cd24f4c', 1);
+INSERT INTO active_sessions (session_id, user_id)
+VALUES ('22222222-2222-2222-2222-222222222222', 2);
+INSERT INTO active_sessions (session_id, user_id)
+VALUES ('adminadm-inad-mina-dmin-adminadminad', 3);

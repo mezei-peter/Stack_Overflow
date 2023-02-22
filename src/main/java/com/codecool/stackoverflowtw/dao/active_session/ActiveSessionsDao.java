@@ -4,4 +4,6 @@ import com.codecool.stackoverflowtw.controller.dto.NewQuestionDTO;
 
 public interface ActiveSessionsDao {
     boolean validateNewQuestionDTO(NewQuestionDTO newQuestionDTO);
+
+    int getUserIdBySessionId(String sessionId);
 }

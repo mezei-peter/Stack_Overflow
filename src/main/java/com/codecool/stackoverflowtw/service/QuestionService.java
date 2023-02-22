@@ -4,6 +4,7 @@ import com.codecool.stackoverflowtw.controller.dto.AnswerDTO;
 import com.codecool.stackoverflowtw.controller.dto.DetailedQuestionDTO;
 import com.codecool.stackoverflowtw.controller.dto.NewQuestionDTO;
 import com.codecool.stackoverflowtw.controller.dto.QuestionDTO;
+import com.codecool.stackoverflowtw.dao.UserDao;
 import com.codecool.stackoverflowtw.dao.active_session.ActiveSessionsDao;
 import com.codecool.stackoverflowtw.dao.answer.AnswersDao;
 import com.codecool.stackoverflowtw.dao.QuestionSortType;
@@ -25,14 +26,16 @@ public class QuestionService {
     private final AnswersDao answersDao;
     private final AnswerConverter answerConverter;
     private final ActiveSessionsDao activeSessionsDao;
+    private final UserDao userDao;
 
     public QuestionService(QuestionsDAO questionsDAO, QuestionConverter questionConverter, AnswersDao answersDao,
-                           AnswerConverter answerConverter, ActiveSessionsDao activeSessionsDao) {
+                           AnswerConverter answerConverter, ActiveSessionsDao activeSessionsDao, UserDao userDao) {
         this.questionsDAO = questionsDAO;
         this.questionConverter = questionConverter;
         this.answersDao = answersDao;
         this.answerConverter = answerConverter;
         this.activeSessionsDao = activeSessionsDao;
+        this.userDao = userDao;
     }
 
     public List<QuestionDTO> getAllQuestions() {
@@ -55,12 +58,20 @@ public class QuestionService {
                 answerCount, answerDTOs);
     }
 
-    public boolean deleteQuestionById(int id) {
-        boolean answersDeleted = answersDao.deleteAnswersByQuestionId(id);
+    public boolean deleteQuestionById(int questionId, String sessionId) {
+        int userId = activeSessionsDao.getUserIdBySessionId(sessionId);
+        if (userId <= 0) {
+            return false;
+        }
+        if (!userDao.isSuperUserByUserId(userId) && !questionsDAO.isOwnerOfQuestionByIds(questionId, userId)) {
+            return false;
+        }
+
+        boolean answersDeleted = answersDao.deleteAnswersByQuestionId(questionId);
         if (!answersDeleted) {
             return false;
         }
-        return questionsDAO.deleteQuestionByQuestionId(id);
+        return questionsDAO.deleteQuestionByQuestionId(questionId);
     }
 
     public int addNewQuestion(NewQuestionDTO newQuestionDTO) {

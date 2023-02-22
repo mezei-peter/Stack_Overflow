@@ -35,4 +35,27 @@ public class ActiveSessionsDaoJDBC implements ActiveSessionsDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public int getUserIdBySessionId(String sessionId) {
+        String query = """
+                SELECT user_id
+                FROM active_sessions
+                WHERE session_id = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setString(1, sessionId);
+
+            ResultSet resultSet = ps.executeQuery();
+            if (!resultSet.next()) {
+                return -1;
+            }
+            return resultSet.getInt("user_id");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
