@@ -4,6 +4,7 @@ import com.codecool.stackoverflowtw.dao.model.Question;
 import com.codecool.stackoverflowtw.database.ConnectionProvider;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -107,7 +108,18 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
 
     @Override
     public int getNumberOfQuestionsByUserId(int userId) {
-        return 0;
+        int result = 0;
+        String query = "SELECT COUNT(question_id) FROM Questions WHERE user_id = ?;";
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ResultSet resultSet = ps.executeQuery();
+            resultSet.next();
+            result = resultSet.getInt("count");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
     @Override
