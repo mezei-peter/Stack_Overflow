@@ -11,4 +11,5 @@ public interface AnswersDao {
     void createNewAnswer(Answer answer);
     boolean deleteAnswerByAnswerId(int answerId);
     boolean deleteAnswersByQuestionId(int questionId);
+    boolean updateAnswerDescription(int answerId, String description);
 }

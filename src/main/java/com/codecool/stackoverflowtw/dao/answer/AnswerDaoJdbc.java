@@ -123,6 +123,22 @@ public class AnswerDaoJdbc implements AnswersDao {
         }
     }
 
+    @Override
+    public boolean updateAnswerDescription(int answerId, String description) {
+        String query = "Update answers Set description = ? where answer_id = ?";
+
+        try(Connection connection = connectionProvider.getConnection();
+            PreparedStatement ps = connection.prepareStatement(query);
+        ) {
+            ps.setString(1, description);
+            ps.setInt(2, answerId);
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private int numberOfAnswersByQuestionId(int questionId) {
         String query = "Select count(*) as number_of_answers from answers where question_id = ?";
 
