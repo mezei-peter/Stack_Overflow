@@ -6,7 +6,9 @@ import com.codecool.stackoverflowtw.database.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserDaoJdbc implements UserDao {
@@ -47,6 +49,24 @@ public class UserDaoJdbc implements UserDao {
     @Override
     public User getUserByQuestionId(int questionId) {
         return null;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        List<User> allUsers = new ArrayList<>();
+        String query = """
+                SELECT user_id, is_super_user, name, password, registered from Users
+                """;
+        try (Connection conn = connectionProvider.getConnection();
+             PreparedStatement prepSt = conn.prepareStatement(query)) {
+            ResultSet result = prepSt.executeQuery();
+            while (result.next()) {
+                allUsers.add(new User(result.getInt("user_id"), result.getBoolean("is_super_user"), result.getString("name"), result.getString("password"), result.getTimestamp("registered")));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return allUsers;
     }
 
     private Collection<User> getUsersById(Collection<Integer> userIds) {

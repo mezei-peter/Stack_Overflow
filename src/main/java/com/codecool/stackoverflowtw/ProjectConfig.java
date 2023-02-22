@@ -9,6 +9,8 @@ import com.codecool.stackoverflowtw.service.QuestionConverter;
 import com.codecool.stackoverflowtw.service.QuestionConverterImpl;
 import com.codecool.stackoverflowtw.service.answerService.AnswerConverter;
 import com.codecool.stackoverflowtw.service.answerService.AnswerConverterImpl;
+import com.codecool.stackoverflowtw.service.userService.UserConverter;
+import com.codecool.stackoverflowtw.service.userService.UserConverterImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -42,5 +44,10 @@ public class ProjectConfig {
     @Bean
     public QuestionConverter questionConverter(UserDao userDao) {
         return new QuestionConverterImpl(userDao);
+    }
+
+    @Bean
+    public UserConverter userConverter(QuestionsDAO questionsDAO, AnswersDao answersDao) {
+        return new UserConverterImpl(questionsDAO,answersDao);
     }
 }
