@@ -1,13 +1,13 @@
 package com.codecool.stackoverflowtw;
 
-import com.codecool.stackoverflowtw.dao.QuestionsDAO;
-import com.codecool.stackoverflowtw.dao.QuestionsDaoJdbc;
-import com.codecool.stackoverflowtw.dao.UserDao;
-import com.codecool.stackoverflowtw.dao.UserDaoJdbc;
+import com.codecool.stackoverflowtw.dao.*;
+import com.codecool.stackoverflowtw.dao.model.User;
 import com.codecool.stackoverflowtw.database.ConnectionProvider;
 import com.codecool.stackoverflowtw.database.PostgreConnect;
 import com.codecool.stackoverflowtw.service.QuestionConverter;
 import com.codecool.stackoverflowtw.service.QuestionConverterImpl;
+import com.codecool.stackoverflowtw.service.answerService.AnswerConverter;
+import com.codecool.stackoverflowtw.service.answerService.AnswerConverterImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,6 +16,16 @@ public class ProjectConfig {
     @Bean
     public QuestionsDAO questionsDAO(ConnectionProvider connectionProvider) {
         return new QuestionsDaoJdbc(connectionProvider);
+    }
+
+    @Bean
+    public AnswersDao answersDao(ConnectionProvider connectionProvider) {
+        return new AnswerDaoJdbc(connectionProvider);
+    }
+
+    @Bean
+    public AnswerConverter answerConverter(QuestionsDAO questionsDAO, UserDao userDao) {
+        return new AnswerConverterImpl(questionsDAO, userDao);
     }
 
     @Bean
