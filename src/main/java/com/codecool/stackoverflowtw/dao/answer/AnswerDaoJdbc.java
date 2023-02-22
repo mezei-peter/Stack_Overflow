@@ -95,6 +95,39 @@ public class AnswerDaoJdbc implements AnswersDao {
 
     @Override
     public boolean deleteAnswersByQuestionId(int questionId) {
-        return false;
+        if (numberOfAnswersByQuestionId(questionId) == 0) {
+            return true;
+        }
+
+        String query = "Delete from answers where question_id = ?";
+
+        try(Connection connection = connectionProvider.getConnection();
+            PreparedStatement ps = connection.prepareStatement(query);
+        ) {
+            ps.setInt(1, questionId);
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int numberOfAnswersByQuestionId(int questionId) {
+        String query = "Select count(*) as number_of_answers from answers where question_id = ?";
+
+        try(Connection connection = connectionProvider.getConnection();
+            PreparedStatement ps = connection.prepareStatement(query);
+        ) {
+            ps.executeQuery(query);
+            ps.setInt(1, questionId);
+
+            ResultSet rs = ps.executeQuery();
+
+            rs.next();
+
+            return rs.getInt("number_of_answers");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
