@@ -53,6 +53,6 @@ public class QuestionController {
 
     @DeleteMapping("/{id}")
     public boolean deleteQuestionById(@PathVariable int id) {
-        return false;
+        return questionService.deleteQuestionById(id);
     }
 }

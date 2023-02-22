@@ -53,8 +53,11 @@ public class QuestionService {
     }
 
     public boolean deleteQuestionById(int id) {
-        // TODO
-        return false;
+        boolean answersDeleted = answersDao.deleteAnswersByQuestionId(id);
+        if (!answersDeleted) {
+            return false;
+        }
+        return questionsDAO.deleteQuestionByQuestionId(id);
     }
 
     public int addNewQuestion(NewQuestionDTO newQuestionDTO) {
