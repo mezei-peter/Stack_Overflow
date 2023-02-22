@@ -6,6 +6,7 @@ import com.codecool.stackoverflowtw.dao.model.Question;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class QuestionConverterImpl implements QuestionConverter {
@@ -16,7 +17,8 @@ public class QuestionConverterImpl implements QuestionConverter {
     }
 
     @Override
-    public List<QuestionDTO> convertQuestionsToQuestionDTOs(Collection<Question> originalQuestions) {
+    public List<QuestionDTO> convertQuestionsToQuestionDTOs(Collection<Question> originalQuestions,
+                                                            Map<Integer, Integer> answerCountsByQuestionIds) {
         return originalQuestions.stream()
                 .map(question -> {
                     return new QuestionDTO(
@@ -27,7 +29,7 @@ public class QuestionConverterImpl implements QuestionConverter {
                             question.getUserId(),
                             userDao.getUsernameByUserId(question.getUserId()),
                             question.getVotes(),
-                            69420
+                            answerCountsByQuestionIds.get(question.getQuestionId())
                     );
                 })
                 .collect(Collectors.toList());

@@ -8,6 +8,7 @@ import com.codecool.stackoverflowtw.dao.model.Question;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class QuestionService {
@@ -22,12 +23,14 @@ public class QuestionService {
 
     public List<QuestionDTO> getAllQuestions() {
         List<Question> allQuestions = questionsDAO.getAllQuestions();
-        return questionConverter.convertQuestionsToQuestionDTOs(allQuestions);
+        Map<Integer, Integer> answerCountsByQuestionIds = questionsDAO.getAnswerCountsByQuestionIds();
+        return questionConverter.convertQuestionsToQuestionDTOs(allQuestions, answerCountsByQuestionIds);
     }
 
     public List<QuestionDTO> getSortedQuestions(QuestionSortType questionSortType) {
         List<Question> sortedQuestions = questionsDAO.getSortedQuestions(questionSortType);
-        return questionConverter.convertQuestionsToQuestionDTOs(sortedQuestions);
+        Map<Integer, Integer> answerCountsByQuestionIds = questionsDAO.getAnswerCountsByQuestionIds();
+        return questionConverter.convertQuestionsToQuestionDTOs(sortedQuestions, answerCountsByQuestionIds);
     }
 
     public QuestionDTO getQuestionById(int id) {
