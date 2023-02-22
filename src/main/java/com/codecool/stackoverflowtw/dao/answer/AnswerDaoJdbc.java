@@ -55,8 +55,6 @@ public class AnswerDaoJdbc implements AnswersDao {
             ResultSet rs = statement.executeQuery(query);
             rs.next();
             return rs.getInt("answer_count");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -64,16 +62,15 @@ public class AnswerDaoJdbc implements AnswersDao {
 
     @Override
     public void createNewAnswer(Answer answer) {
-        String query = "Insert into answers (question_id, votes, description, user_id, posted) " +
-                "Values(?, ?, ?, ?, ?);";
+        String query = "Insert into answers (question_id, votes, description, user_id) " +
+                "Values(?, ?, ?, ?);";
         try (Connection connection = connectionProvider.getConnection();
              PreparedStatement ps = connection.prepareStatement(query);
         ) {
-            ps.setInt(2, answer.getUserId());
+            ps.setInt(2, answer.getQuestionId());
             ps.setInt(3, answer.getVotes());
-            ps.setString(4, answer.getDescritpion());
+            ps.setString(4, answer.getDescription());
             ps.setInt(5, answer.getUserId());
-            ps.setTimestamp(6, answer.getPosted());
 
             ps.executeQuery();
         } catch (Exception e) {

@@ -7,27 +7,27 @@ public class Answer {
     private final int answerId;
     private final int questionId;
     private final int votes;
-    private final String descritpion;
+    private final String description;
     private final int userId;
     private final Timestamp posted;
 
-    public Answer(int answerId, int questionId, int votes, String descritpion, int userId,
+    public Answer(int answerId, int questionId, int votes, String description, int userId,
                   Timestamp posted) {
         this.answerId = answerId;
         this.questionId = questionId;
         this.votes = votes;
-        this.descritpion = descritpion;
+        this.description = description;
         this.userId = userId;
         this.posted = posted;
     }
 
-    public Answer(int questionId, int votes, String descritpion, int userId, Timestamp posted) {
+    public Answer(int questionId, String description, int userId) {
         this.answerId = 0;
         this.questionId = questionId;
-        this.votes = votes;
-        this.descritpion = descritpion;
+        this.votes = 0;
+        this.description = description;
         this.userId = userId;
-        this.posted = posted;
+        this.posted = null;
     }
 
     public int getAnswerId() {
@@ -42,8 +42,8 @@ public class Answer {
         return votes;
     }
 
-    public String getDescritpion() {
-        return descritpion;
+    public String getDescription() {
+        return description;
     }
 
     public int getUserId() {

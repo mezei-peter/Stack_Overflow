@@ -1,10 +1,10 @@
 package com.codecool.stackoverflowtw.service.answerService;
 
 import com.codecool.stackoverflowtw.controller.dto.AnswerDTO;
+import com.codecool.stackoverflowtw.controller.dto.NewAnswerDTO;
 import com.codecool.stackoverflowtw.dao.QuestionsDAO;
 import com.codecool.stackoverflowtw.dao.UserDao;
 import com.codecool.stackoverflowtw.dao.model.Answer;
-import com.codecool.stackoverflowtw.service.QuestionService;
 
 import java.util.Collection;
 
@@ -25,9 +25,15 @@ public class AnswerConverterImpl implements AnswerConverter {
                     int answerPosterId = 1;
                     String username = userDao.getUsernameByUserId(answerPosterId);
                     return new AnswerDTO(answer.getAnswerId(), answer.getQuestionId(),
-                            answer.getVotes(), answer.getDescritpion(), answer.getUserId(),
+                            answer.getVotes(), answer.getDescription(), answer.getUserId(),
                             answerPosterId, answer.getPosted(), username);
                         }
                 ).toList();
+    }
+
+    @Override
+    public Answer convertNewAnswerDTOtoAnswer(NewAnswerDTO newAnswers) {
+        return new Answer(newAnswers.questionId(), newAnswers.description(),
+                newAnswers.answerPosterId());
     }
 }
