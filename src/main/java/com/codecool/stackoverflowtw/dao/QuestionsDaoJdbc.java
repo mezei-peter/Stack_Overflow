@@ -94,7 +94,22 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
 
     @Override
     public boolean deleteQuestionByQuestionId(int questionId) {
-        return false;
+        String delete = """
+                DELETE FROM questions WHERE question_id = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement statement = connection.prepareStatement(delete)) {
+            statement.setInt(1, questionId);
+            int deletedRowCount = statement.executeUpdate();
+            System.out.println(deletedRowCount);
+            if (deletedRowCount > 1) {
+                throw new RuntimeException("Deleted more rows from the questions table than necessary!");
+            }
+            return deletedRowCount == 1;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
