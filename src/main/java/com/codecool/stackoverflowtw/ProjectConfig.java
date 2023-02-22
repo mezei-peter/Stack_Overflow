@@ -1,6 +1,8 @@
 package com.codecool.stackoverflowtw;
 
 import com.codecool.stackoverflowtw.dao.*;
+import com.codecool.stackoverflowtw.dao.active_session.ActiveSessionsDao;
+import com.codecool.stackoverflowtw.dao.active_session.ActiveSessionsDaoJDBC;
 import com.codecool.stackoverflowtw.dao.answer.AnswerDaoJdbc;
 import com.codecool.stackoverflowtw.dao.answer.AnswersDao;
 import com.codecool.stackoverflowtw.database.ConnectionProvider;
@@ -49,5 +51,10 @@ public class ProjectConfig {
     @Bean
     public UserConverter userConverter(QuestionsDAO questionsDAO, AnswersDao answersDao) {
         return new UserConverterImpl(questionsDAO,answersDao);
+    }
+
+    @Bean
+    public ActiveSessionsDao activeSessionsDao(ConnectionProvider connectionProvider) {
+        return new ActiveSessionsDaoJDBC(connectionProvider);
     }
 }

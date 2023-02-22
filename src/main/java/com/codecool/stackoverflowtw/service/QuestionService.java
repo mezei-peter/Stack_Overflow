@@ -4,6 +4,7 @@ import com.codecool.stackoverflowtw.controller.dto.AnswerDTO;
 import com.codecool.stackoverflowtw.controller.dto.DetailedQuestionDTO;
 import com.codecool.stackoverflowtw.controller.dto.NewQuestionDTO;
 import com.codecool.stackoverflowtw.controller.dto.QuestionDTO;
+import com.codecool.stackoverflowtw.dao.active_session.ActiveSessionsDao;
 import com.codecool.stackoverflowtw.dao.answer.AnswersDao;
 import com.codecool.stackoverflowtw.dao.QuestionSortType;
 import com.codecool.stackoverflowtw.dao.QuestionsDAO;
@@ -23,13 +24,15 @@ public class QuestionService {
     private final QuestionConverter questionConverter;
     private final AnswersDao answersDao;
     private final AnswerConverter answerConverter;
+    private final ActiveSessionsDao activeSessionsDao;
 
     public QuestionService(QuestionsDAO questionsDAO, QuestionConverter questionConverter, AnswersDao answersDao,
-                           AnswerConverter answerConverter) {
+                           AnswerConverter answerConverter, ActiveSessionsDao activeSessionsDao) {
         this.questionsDAO = questionsDAO;
         this.questionConverter = questionConverter;
         this.answersDao = answersDao;
         this.answerConverter = answerConverter;
+        this.activeSessionsDao = activeSessionsDao;
     }
 
     public List<QuestionDTO> getAllQuestions() {
