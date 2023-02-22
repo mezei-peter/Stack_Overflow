@@ -58,6 +58,7 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
             return new Question(resultSet.getInt("question_id"), resultSet.getInt("votes"),
                     resultSet.getString("title"), resultSet.getString("description"),
                     resultSet.getInt("user_id"), resultSet.getTimestamp("posted"));

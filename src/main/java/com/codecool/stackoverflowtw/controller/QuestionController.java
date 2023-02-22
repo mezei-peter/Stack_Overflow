@@ -1,5 +1,6 @@
 package com.codecool.stackoverflowtw.controller;
 
+import com.codecool.stackoverflowtw.controller.dto.DetailedQuestionDTO;
 import com.codecool.stackoverflowtw.controller.dto.NewQuestionDTO;
 import com.codecool.stackoverflowtw.controller.dto.QuestionDTO;
 import com.codecool.stackoverflowtw.dao.QuestionSortType;
@@ -41,7 +42,7 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    public QuestionDTO getQuestionById(@PathVariable int id) {
+    public DetailedQuestionDTO getQuestionById(@PathVariable int id) {
         return questionService.getQuestionById(id);
     }
 
