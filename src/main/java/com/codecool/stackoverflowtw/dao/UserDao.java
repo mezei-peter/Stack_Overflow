@@ -14,4 +14,6 @@ public interface UserDao {
     boolean deleteUserByUserId(int userId);
     User getUserByQuestionId(int questionId);
     List<User> getAllUsers();
+
+    boolean isSuperUserByUserId(int userId);
 }

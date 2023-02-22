@@ -51,8 +51,8 @@ public class QuestionController {
         return questionService.addNewQuestion(question);
     }
 
-    @DeleteMapping("/{id}")
-    public boolean deleteQuestionById(@PathVariable int id) {
-        return questionService.deleteQuestionById(id);
+    @DeleteMapping("/{questionId}")
+    public boolean deleteQuestionById(@PathVariable int questionId, @RequestBody String sessionId) {
+        return questionService.deleteQuestionById(questionId, sessionId);
     }
 }
