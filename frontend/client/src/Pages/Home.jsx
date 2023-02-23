@@ -68,7 +68,7 @@ const Home = () => {
             <div>{question.title}</div>
             <div>{question.numberOfAnswers}</div>
             <div>{question.username}</div>
-            <Link to={`/update/${question.questionId}`}>
+            <Link to={`/questions/${question.questionId}`}>
               <button variant="outlined">View</button>
             </Link>
           </div>
