@@ -22,7 +22,10 @@ public class UserConverterImpl implements UserConverter {
     public List<UserDTO> convert(List<User> users) {
         List<UserDTO> result = new ArrayList<>();
         for (User user : users) {
-            result.add(new UserDTO(user.getName(), user.getRegistered(), questionsDAO.getNumberOfQuestionsByUserId(user.getUserId()), answerDao.getNumberOfAnswersByUserId(user.getUserId())));
+            result.add(new UserDTO(user.getName(),
+                    user.getRegistered(),
+                    questionsDAO.getNumberOfQuestionsByUserId(user.getUserId()),
+                    answerDao.getNumberOfAnswersByUserId(user.getUserId())));
         }
         return result;
     }
