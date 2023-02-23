@@ -3,7 +3,7 @@ const AnswerForm = ({onSave}) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const answer = event.target.form[0].value
-        onSave(answer)
+        return onSave(answer)
     }
 
 
