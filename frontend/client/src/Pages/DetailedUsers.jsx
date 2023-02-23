@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import './userList.css';
 
 const DetailedUsers = () => {
     const [users, setUsers] = useState([]);
@@ -13,8 +14,8 @@ const DetailedUsers = () => {
     console.log("ezaz" + users);
 
     return (
-        <div>
-            <h2>User List</h2>
+        <div id='userListContainer'>
+            <h2 id='title'>Detailed list of active users</h2>
             <ul>
                 {users.map((user) => (
                     <li key={user.username}> Username: {user.username}, Date of registration: {user.regDate}, Number of questions posted: {user.noOfQuestions}, Number of answers posted: {user.noOfAnswers}</li>
