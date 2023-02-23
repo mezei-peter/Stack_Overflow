@@ -1,4 +1,6 @@
-const AnswerForm = ({onSave}) => {
+const AnswerForm = ({onSave, user}) => {
+
+    console.log(user)
 
     const handleSubmit = (event) => {
         event.preventDefault();

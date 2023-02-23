@@ -28,6 +28,7 @@ const DetailedQuestions = () => {
     const {id} = useParams();
 
     const [question, setQuestion] = useState(null);
+    const [user, setUser] = useState(-1);
     const [loading, setLodaing] = useState(true);
 
     const onSave = async (answer) => {
@@ -36,7 +37,6 @@ const DetailedQuestions = () => {
             const userId = await (await fetch(`/user/userIdFromSessionId/${sessionId}`)).text();
             const res = await postAnswer(question, answer, userId);
             window.location.reload();
-            console.log(res)
         } catch (err) {
             console.log(err);
         }
@@ -52,6 +52,9 @@ const DetailedQuestions = () => {
                 const data = await fetchQuestion(id);
                 setQuestion(data);
                 setLodaing(false);
+                const sessionId = localStorage.getItem("sessionId");
+                const userId = await (await fetch(`/user/userIdFromSessionId/${sessionId}`)).text();
+                setUser(userId)
             } catch (err) {
                 console.log(err);
             }
@@ -83,7 +86,7 @@ const DetailedQuestions = () => {
             </div>)}
         </div>
 
-        <AnswerForm onSave={onSave}/>
+        {user > -1 ? <AnswerForm onSave={onSave} user={user}/> : null}
     </div>);
 }
  
