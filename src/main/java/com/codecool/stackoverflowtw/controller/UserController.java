@@ -34,13 +34,13 @@ public class UserController {
         return userService.createSession(userLoginDTO);
     }
 
-    @DeleteMapping("/logout")
-    public boolean deleteSessionBySessionId(@RequestBody String sessionId) {
+    @DeleteMapping("/logout/{sessionId}")
+    public boolean deleteSessionBySessionId(@PathVariable String sessionId) {
         return userService.deleteSession(sessionId);
     }
 
-    @GetMapping("/session")
-    public UserDTO getUserBySessionId(@RequestBody String sessionId) {
+    @GetMapping("/session/{sessionId}")
+    public UserDTO getUserBySessionId(@PathVariable String sessionId) {
         return userService.getUserBySessionId(sessionId);
     }
 
