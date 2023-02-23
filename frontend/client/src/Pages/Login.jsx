@@ -63,9 +63,19 @@ const Login = () => {
         }
     }, []);
 
+    const handleLogout = () => {
+        fetch("/user/logout/" + localStorage.getItem("sessionId"), {
+            method: "DELETE"
+        })
+        .then(res => {
+            console.log(res);
+            window.location.reload();
+        });
+    }
+
     return (
         <div>
-            {isLoggedIn && <button style={{"width": "20%", "fontSize": "30px"}}>Logout</button>}
+            {isLoggedIn && <button style={{"width": "20%", "fontSize": "30px"}} onClick={() => handleLogout()}>Logout</button>}
             {!isLoggedIn && <LoginForm/>}
         </div>
     );

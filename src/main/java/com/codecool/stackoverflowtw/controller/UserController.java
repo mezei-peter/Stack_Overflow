@@ -34,8 +34,8 @@ public class UserController {
         return userService.createSession(userLoginDTO);
     }
 
-    @DeleteMapping("/logout")
-    public boolean deleteSessionBySessionId(@RequestBody String sessionId) {
+    @DeleteMapping("/logout/{sessionId}")
+    public boolean deleteSessionBySessionId(@PathVariable String sessionId) {
         return userService.deleteSession(sessionId);
     }
 
