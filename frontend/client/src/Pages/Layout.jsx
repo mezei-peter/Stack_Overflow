@@ -11,6 +11,7 @@ const Layout = () => {
         });
 
     useEffect(() => {
+        console.log("---------useEffect firing-----------");
         const sessionId = localStorage.getItem("sessionId");
         if (sessionId) {
             fetch("/user/session/" + sessionId)
@@ -18,9 +19,14 @@ const Layout = () => {
                 if (res.status != 200) {
                     console.warn("Not logged in");
                 }
+                return res;
             })
-            .then(res => res.json())
+            .then(res => {
+                return res.json();
+            })
             .then(user => {
+                console.log("_------asdasdaef");
+                console.log(user);
                 setCurrentUser({
                     "username": user.username,
                     "numberOfQuestions": user.noOfQuestions,
