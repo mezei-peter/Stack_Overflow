@@ -33,4 +33,9 @@ public class UserController {
     public boolean deleteSessionBySessionId(@RequestBody String sessionId) {
         return userService.deleteSession(sessionId);
     }
+
+    @GetMapping("/session")
+    public UserDTO getUserBySessionId(@RequestBody String sessionId) {
+        return userService.getUserBySessionId(sessionId);
+    }
 }

@@ -36,4 +36,10 @@ public class UserService {
     public boolean deleteSession(String sessionId) {
         return activeSessionsDao.deleteSession(sessionId);
     }
+
+    public UserDTO getUserBySessionId(String sessionId) {
+        int userId = activeSessionsDao.getUserIdBySessionId(sessionId);
+        User user = userDao.getUserByUserId(userId);
+        return userConverter.convert(user);
+    }
 }

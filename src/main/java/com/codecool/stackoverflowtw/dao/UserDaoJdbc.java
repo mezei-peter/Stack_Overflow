@@ -33,7 +33,7 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public User getUserByUserId(int userId) {
-        return null;
+        return getUserById(userId);
     }
 
     @Override
