@@ -16,6 +16,7 @@ public interface UserDao {
     List<User> getAllUsers();
 
     boolean isSuperUserByUserId(int userId);
+    boolean createUser(User user);
 
     int getUserIdByLoginDetails(String username, String password);
 }
