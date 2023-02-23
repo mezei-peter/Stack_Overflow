@@ -81,8 +81,8 @@ VALUES (2, 2, 'Yes', 1);
 INSERT INTO Answers (question_id, votes, description, user_id)
 VALUES (3, 3, 'Yes', 1);
 
-INSERT INTO active_sessions (session_id, user_id)
-VALUES ('5fc03087-d265-11e7-b8c6-83e29cd24f4c', 1);
+-- INSERT INTO active_sessions (session_id, user_id)
+-- VALUES ('5fc03087-d265-11e7-b8c6-83e29cd24f4c', 1);
 INSERT INTO active_sessions (session_id, user_id)
 VALUES ('22222222-2222-2222-2222-222222222222', 2);
 INSERT INTO active_sessions (session_id, user_id)
