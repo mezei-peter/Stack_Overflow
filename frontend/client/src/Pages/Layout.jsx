@@ -14,15 +14,20 @@ const Layout = () => {
         const sessionId = localStorage.getItem("sessionId");
         if (sessionId) {
             fetch("/user/session/" + sessionId)
+            .then(res => {
+                if (res.status != 200) {
+                    console.warn("Not logged in");
+                }
+            })
             .then(res => res.json())
             .then(user => {
-                console.log(user);
                 setCurrentUser({
                     "username": user.username,
                     "numberOfQuestions": user.noOfQuestions,
                     "numberOfAnswers": user.noOfAnswers
                 });
-            });
+            })
+            .catch(e => {});
         }
     }, []);
 
