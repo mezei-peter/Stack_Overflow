@@ -9,24 +9,9 @@ const fetchQuestions = async (signal) => {
   return await (await fetch("/questions/all", { signal })).json();
 };
 
-// const deleteDivison = async(id) => {
-//   return await (await fetch(`/api/divisons/${id}`, {
-//     method: "DELETE",
-//   })).json()
-// }
-
 const Home = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  //   const handleDelete = async (id) => {
-  //     try {
-  //       const res = await deleteDivison(id)
-  //       console.log(res)
-  //     } catch (err) {
-  //       console.log(err)
-  //     }
-  //   }
 
   useEffect(() => {
     const controller = new AbortController();

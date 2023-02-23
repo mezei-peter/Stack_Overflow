@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AnswerForm from '../Components/AnswerForm';
 import './detailedQuestions.css';
@@ -10,8 +10,7 @@ const fetchQuestion = async(id) => {
 }
 
 const postAnswer = async (question, answer, answer_poster_id) => {
-    console.log(answer_poster_id)
-    await fetch(`/answers/`, {
+    return await fetch(`/answers/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -21,6 +20,12 @@ const postAnswer = async (question, answer, answer_poster_id) => {
             "description" : `${answer}`,
             "answer_poster_id" : `${answer_poster_id}`
         })
+    })
+}
+
+const deleteAnswer = async(answerId) => {
+    return await fetch(`/answers/${answerId}`, {
+        "method" : "DELETE"
     })
 }
 
@@ -43,6 +48,12 @@ const DetailedQuestions = () => {
         }
 
     } 
+
+    const handleAnswerDelete = async(answerId) => {
+        const res = await deleteAnswer(answerId)
+        console.log(res);
+        window.location.reload()
+    }
 
     useEffect(() => {
         setLodaing(true);
@@ -88,6 +99,11 @@ const DetailedQuestions = () => {
                 <div>
                     {answer.username}
                 </div>
+                {userId.toString() === answer.answerPosterUserId.toString() ? 
+                    <div>
+                        <button onClick={() => handleAnswerDelete(answer.answerId)}>Delete answer</button>
+                    </div> : null
+                }
             </div>)}
         </div>
 
