@@ -1,6 +1,4 @@
-const AnswerForm = ({onSave, user}) => {
-
-    console.log(user)
+const AnswerForm = ({onSave}) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -10,10 +8,10 @@ const AnswerForm = ({onSave, user}) => {
 
 
   return (
-    <form action="" method="Post" class="form-example">
+    <form action="" method="" class="form-example">
         <label>
           Enter your answer:
-          <input type="text" name="answer" id="answer" required />
+          <input type="text" name="answer" id="answer" required onSubmit={(event) => event.preventDefault()}/>
           <button type="button" onClick={(event) => handleSubmit(event)}>Send</button>
         </label>
     </form>
