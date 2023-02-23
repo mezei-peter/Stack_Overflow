@@ -39,7 +39,7 @@ const Layout = () => {
                 <Link to="/home">Main page</Link>
                 <Link to="/register">Register</Link>
                 <Link to="/login">Login/Logout</Link>
-                <Link to="/users">Order</Link>
+                <Link to="/users">List of users</Link>
                 <div style={{"display": 'flex', "flexDirection": "column", "textAlign": "center"}}>
                     <div>{!currentUser.username ? "Logged out." : <span>Logged in as <span style={{"color": "blue"}}>{currentUser.username}</span></span>}</div>
                     <div>{!currentUser.username ? "Click on Login/Logout " : `Questions: ${currentUser.numberOfQuestions}`}</div>

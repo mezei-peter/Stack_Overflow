@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Link } from "react-router-dom";
+import './home.css';
 
 import { useState, useEffect } from "react";
 
@@ -47,27 +48,13 @@ const Home = () => {
 
   return (
     <div>
-      <div>
-        <div>
-          Index
-        </div>
-        <div>
-          Title
-        </div>
-        <div>
-          Number of answers
-        </div>
-        <div>
-          Username
-        </div>
-      </div>
       <div className="questions">
         {data.map((question, index) => (
           <div key={question.questionId}>
-            <div>{index + 1}</div>
-            <div>{question.title}</div>
-            <div>{question.numberOfAnswers}</div>
-            <div>{question.username}</div>
+            <div>Index: {index + 1}</div>
+            <div>Title: {question.title}</div>
+            <div> Number of answers: {question.numberOfAnswers}</div>
+            <div> Posted by: {question.username}</div>
             <Link to={`/questions/${question.questionId}`}>
               <button variant="outlined">View</button>
             </Link>
