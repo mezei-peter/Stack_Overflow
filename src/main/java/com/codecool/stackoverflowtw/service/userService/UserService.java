@@ -52,4 +52,8 @@ public class UserService {
         User user = userDao.getUserByUserId(userId);
         return userConverter.convert(user);
     }
+
+    public int getUserIdBySessionId(String sessionId) {
+        return activeSessionsDao.getUserIdBySessionId(sessionId);
+    }
 }
