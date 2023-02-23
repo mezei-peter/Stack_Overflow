@@ -17,7 +17,7 @@ const DetailedUsers = () => {
             <h2>User List</h2>
             <ul>
                 {users.map((user) => (
-                    <li key={user.username}>{user.username} {user.regdate} {user.noOfQuestions} {user.noOfAnswers}</li>
+                    <li key={user.username}> Username: {user.username}, Date of registration: {user.regDate}, Number of questions posted: {user.noOfQuestions}, Number of answers posted: {user.noOfAnswers}</li>
                 ))}
             </ul>
         </div>
