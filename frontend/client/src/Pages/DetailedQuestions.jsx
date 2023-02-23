@@ -9,16 +9,16 @@ const fetchQuestion = async(id) => {
 }
 
 const postAnswer = async (question, answer, answer_poster_id) => {
-    await fetch(`/answers/post`, {
+    await fetch(`/answers/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: {
+        body: JSON.stringify({
             "question_id" : `${question.questionId}`,
             "description" : `${answer}`,
             "answer_poster_id" : `${answer_poster_id}`
-        }
+        })
     })
 }
 
@@ -30,9 +30,16 @@ const DetailedQuestions = () => {
     const [loading, setLodaing] = useState(true);
 
     const onSave = async (answer) => {
-        const sessionId = localStorage.getItem("sessionId");
-        const userId = await fetch(`user/userIdFromSessionId/${sessionId}`);
-        console.log(userId);
+        try {
+            const sessionId = localStorage.getItem("sessionId");
+            const userId = await (await fetch(`/user/userIdFromSessionId/${sessionId}`)).text();
+            const res = await postAnswer(question, answer, userId);
+            window.location.reload();
+            console.log(res)
+        } catch (err) {
+            console.log(err);
+        }
+
     } 
 
     useEffect(() => {
@@ -42,7 +49,6 @@ const DetailedQuestions = () => {
 
             try {
                 const data = await fetchQuestion(id);
-                console.log(data)
                 setQuestion(data);
                 setLodaing(false);
             } catch (err) {
