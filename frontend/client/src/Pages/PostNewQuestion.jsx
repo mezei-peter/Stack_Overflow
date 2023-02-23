@@ -31,7 +31,7 @@ const PostNewQuestion = () => {
             })
         })
         .then(res => res.json())
-        .then(msg => window.location.pathname = "/update/" + msg);
+        .then(msg => window.location.pathname = "/questions/" + msg);
     }
 
     return(
