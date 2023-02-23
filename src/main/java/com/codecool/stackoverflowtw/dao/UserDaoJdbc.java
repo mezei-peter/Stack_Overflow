@@ -82,10 +82,10 @@ public class UserDaoJdbc implements UserDao {
                     WHERE user_id = ?;
                 """;
 
-        try (Connection connection = connectionProvider.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (Connection conn = connectionProvider.getConnection();
+             PreparedStatement prepSt = conn.prepareStatement(query)) {
+            prepSt.setInt(1, id);
+            ResultSet resultSet = prepSt.executeQuery();
             resultSet.next();
             User user = new User(resultSet.getInt("user_id"), resultSet.getBoolean("is_super_user"),
                     resultSet.getString("name"), resultSet.getString("password"),
