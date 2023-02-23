@@ -39,8 +39,8 @@ public class UserController {
         return userService.deleteSession(sessionId);
     }
 
-    @GetMapping("/session")
-    public UserDTO getUserBySessionId(@RequestBody String sessionId) {
+    @GetMapping("/session/{sessionId}")
+    public UserDTO getUserBySessionId(@PathVariable String sessionId) {
         return userService.getUserBySessionId(sessionId);
     }
 

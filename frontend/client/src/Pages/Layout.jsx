@@ -10,6 +10,22 @@ const Layout = () => {
             numberOfAnswers: 0
         });
 
+    useEffect(() => {
+        const sessionId = localStorage.getItem("sessionId");
+        if (sessionId) {
+            fetch("/user/session/" + sessionId)
+            .then(res => res.json())
+            .then(user => {
+                console.log(user);
+                setCurrentUser({
+                    "username": user.username,
+                    "numberOfQuestions": user.noOfQuestions,
+                    "numberOfAnswers": user.noOfAnswers
+                });
+            });
+        }
+    }, []);
+
     return (
         <>
             <nav id="header-nav" style={{"display": "flex", "justifyContent": "space-around"}}>
@@ -18,7 +34,7 @@ const Layout = () => {
                 <Link to="/login">Login/Logout</Link>
                 <Link to="/users">Order</Link>
                 <div style={{"display": 'flex', "flexDirection": "column", "textAlign": "center"}}>
-                    <div>{!currentUser.username ? "Logged out." : `Logged in as ${currentUser.username}.`}</div>
+                    <div>{!currentUser.username ? "Logged out." : <span>Logged in as <span style={{"color": "blue"}}>{currentUser.username}</span></span>}</div>
                     <div>{!currentUser.username ? "Click on Login/Logout " : `Questions: ${currentUser.numberOfQuestions}`}</div>
                     <div>{!currentUser.username ? "to log in." : `Answers: ${currentUser.numberOfAnswers}`}</div>
                 </div>
