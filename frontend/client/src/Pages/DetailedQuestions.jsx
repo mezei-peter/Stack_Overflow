@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import AnswerForm from '../Components/AnswerForm';
 
 const fetchQuestion = async(id) => {
     return await (await fetch(`/questions/${id}`)).json();
@@ -54,6 +55,8 @@ const DetailedQuestions = () => {
                 </div>
             </div>)}
         </div>
+
+        <AnswerForm />
     </div>);
 }
  
