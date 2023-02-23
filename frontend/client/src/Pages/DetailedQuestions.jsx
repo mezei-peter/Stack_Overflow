@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AnswerForm from '../Components/AnswerForm';
+import './detailedQuestions.css';
 
 const fetchQuestion = async(id) => {
     return await (await fetch(`/questions/${id}`)).json();
@@ -60,7 +61,7 @@ const DetailedQuestions = () => {
 
     if(loading) return <div>Loading</div>
 
-    return (<div>
+    return (<div id='detailedContainer'>
         <div>
             Username: {question.username}
         </div>
@@ -76,7 +77,7 @@ const DetailedQuestions = () => {
         <div>Answers: </div>
         <div>
             {question.answers.map(answer => <div key={answer.answerId}>
-                <div>
+                <div id='answerContainer'>
                     {answer.description}
                 </div>
             </div>)}
