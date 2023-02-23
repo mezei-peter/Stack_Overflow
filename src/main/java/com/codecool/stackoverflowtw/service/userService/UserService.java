@@ -32,4 +32,8 @@ public class UserService {
         int userId = userDao.getUserIdByLoginDetails(userLoginDTO.username(), userLoginDTO.password());
         return activeSessionsDao.createSessionForUserId(userId);
     }
+
+    public boolean deleteSession(String sessionId) {
+        return activeSessionsDao.deleteSession(sessionId);
+    }
 }

@@ -8,4 +8,6 @@ public interface ActiveSessionsDao {
     int getUserIdBySessionId(String sessionId);
 
     String createSessionForUserId(int userId);
+
+    boolean deleteSession(String sessionId);
 }

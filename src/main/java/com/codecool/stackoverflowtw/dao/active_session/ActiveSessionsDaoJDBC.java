@@ -79,4 +79,19 @@ public class ActiveSessionsDaoJDBC implements ActiveSessionsDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public boolean deleteSession(String sessionId) {
+        String delete = """
+                DELETE FROM active_sessions WHERE session_id = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement ps = connection.prepareStatement(delete)) {
+            ps.setString(1, sessionId);
+            return ps.executeUpdate() == 1;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -28,4 +28,9 @@ public class UserController {
     public String getSessionIdByLogin(@RequestBody UserLoginDTO userLoginDTO) {
         return userService.createSession(userLoginDTO);
     }
+
+    @DeleteMapping("/logout")
+    public boolean deleteSessionBySessionId(@RequestBody String sessionId) {
+        return userService.deleteSession(sessionId);
+    }
 }
