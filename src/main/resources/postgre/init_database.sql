@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Users
 (
     user_id       SERIAL PRIMARY KEY,
     is_super_user boolean,
-    name          TEXT,
+    name          TEXT UNIQUE,
     password      TEXT,
     registered    timestamptz default (current_timestamp)
 );

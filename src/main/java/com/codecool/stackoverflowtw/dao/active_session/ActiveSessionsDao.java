@@ -6,4 +6,8 @@ public interface ActiveSessionsDao {
     boolean validateNewQuestionDTO(NewQuestionDTO newQuestionDTO);
 
     int getUserIdBySessionId(String sessionId);
+
+    String createSessionForUserId(int userId);
+
+    boolean deleteSession(String sessionId);
 }

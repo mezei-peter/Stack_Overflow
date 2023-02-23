@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface UserConverter {
     List<UserDTO> convert(List<User> users);
+
+    UserDTO convert(User user);
 }
