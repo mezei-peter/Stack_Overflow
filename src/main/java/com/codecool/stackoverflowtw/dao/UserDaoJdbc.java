@@ -61,7 +61,11 @@ public class UserDaoJdbc implements UserDao {
              PreparedStatement prepSt = conn.prepareStatement(query)) {
             ResultSet result = prepSt.executeQuery();
             while (result.next()) {
-                allUsers.add(new User(result.getInt("user_id"), result.getBoolean("is_super_user"), result.getString("name"), result.getString("password"), result.getTimestamp("registered")));
+                allUsers.add(new User(result.getInt("user_id"),
+                        result.getBoolean("is_super_user"),
+                        result.getString("name"),
+                        result.getString("password"),
+                        result.getTimestamp("registered")));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
