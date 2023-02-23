@@ -10,6 +10,7 @@ import Register from "./Pages/Register";
 import DetailedQuestions from "./Pages/DetailedQuestions";
 import DetailedUsers from "./Pages/DetailedUsers";
 import Layout from "./Pages/Layout";
+import PostNewQuestion from "./Pages/PostNewQuestion"
 
 
 const router = createBrowserRouter([
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/question/:id",
         element: <DetailedQuestions/>
+      }, 
+      {
+        path: "/question/new",
+        element: <PostNewQuestion/>
       }, 
       {
         path: "/users",

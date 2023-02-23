@@ -44,6 +44,11 @@ public class UserController {
         return userService.getUserBySessionId(sessionId);
     }
 
+    @GetMapping("/userIdFromSessionId/{sessionId}")
+    public int getUserIdBySessionId(@PathVariable String sessionId) {
+        return userService.getUserIdBySessionId(sessionId);
+    }
+
     @PostMapping("/")
     public ResponseEntity<String> createUser(@RequestBody NewUserDTO newUserDTO) {
         try {
