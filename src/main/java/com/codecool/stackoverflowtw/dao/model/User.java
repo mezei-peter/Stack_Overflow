@@ -17,6 +17,14 @@ public class User {
         this.registered = registered;
     }
 
+    public User(String name, String password) {
+        this.userId = 0;
+        this.name = name;
+        this.password = password;
+        this.isSuperUser = false;
+        this.registered = null;
+    }
+
     public int getUserId() {
         return userId;
     }
@@ -36,4 +44,6 @@ public class User {
     public Timestamp getRegistered() {
         return registered;
     }
+
+
 }
