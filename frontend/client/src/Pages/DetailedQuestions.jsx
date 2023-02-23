@@ -10,6 +10,7 @@ const fetchQuestion = async(id) => {
 }
 
 const postAnswer = async (question, answer, answer_poster_id) => {
+    console.log(answer_poster_id)
     await fetch(`/answers/`, {
         method: "POST",
         headers: {
@@ -28,7 +29,7 @@ const DetailedQuestions = () => {
     const {id} = useParams();
 
     const [question, setQuestion] = useState(null);
-    const [user, setUser] = useState(-1);
+    const [userId, setUserId] = useState(-1);
     const [loading, setLodaing] = useState(true);
 
     const onSave = async (answer) => {
@@ -54,7 +55,8 @@ const DetailedQuestions = () => {
                 setLodaing(false);
                 const sessionId = localStorage.getItem("sessionId");
                 const userId = await (await fetch(`/user/userIdFromSessionId/${sessionId}`)).text();
-                setUser(userId)
+                setUserId(userId)
+                console.log(userId)
             } catch (err) {
                 console.log(err);
             }
@@ -78,15 +80,18 @@ const DetailedQuestions = () => {
             Description: {question.description}
         </div>
         <div>Answers: </div>
-        <div>
+        <div className='answers'>
             {question.answers.map(answer => <div key={answer.answerId}>
                 <div id='answerContainer'>
                     {answer.description}
                 </div>
+                <div>
+                    {answer.username}
+                </div>
             </div>)}
         </div>
 
-        {user > -1 ? <AnswerForm onSave={onSave} user={user}/> : null}
+        {userId > -1 ? <AnswerForm onSave={onSave}/> : null}
     </div>);
 }
  
