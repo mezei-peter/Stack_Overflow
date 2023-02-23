@@ -48,6 +48,7 @@ const Home = () => {
 
   return (
     <div>
+      <h2 id='titleHome'>Welcome to our homepage!</h2>
       <div className="questions">
         {data.map((question, index) => (
           <div key={question.questionId}>
