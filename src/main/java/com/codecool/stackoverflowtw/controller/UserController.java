@@ -1,9 +1,14 @@
 package com.codecool.stackoverflowtw.controller;
 
+import com.codecool.stackoverflowtw.controller.dto.NewUserDTO;
 import com.codecool.stackoverflowtw.controller.dto.UserDTO;
+import com.codecool.stackoverflowtw.service.userService.UserAlreadyExistAuthenticationException;
 import com.codecool.stackoverflowtw.controller.dto.UserLoginDTO;
 import com.codecool.stackoverflowtw.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +42,17 @@ public class UserController {
     @GetMapping("/session")
     public UserDTO getUserBySessionId(@RequestBody String sessionId) {
         return userService.getUserBySessionId(sessionId);
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<String> createUser(@RequestBody NewUserDTO newUserDTO) {
+        try {
+            userService.createNewUser(newUserDTO);
+        } catch (UserAlreadyExistAuthenticationException e) {
+            return new ResponseEntity<>("Username: " + newUserDTO.username() + " already exists",
+                    HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>("User with username: " + newUserDTO.username() + " created.",
+                HttpStatus.CREATED);
     }
 }

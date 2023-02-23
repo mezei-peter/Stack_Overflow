@@ -1,5 +1,6 @@
 package com.codecool.stackoverflowtw.service.userService;
 
+import com.codecool.stackoverflowtw.controller.dto.NewUserDTO;
 import com.codecool.stackoverflowtw.controller.dto.UserDTO;
 import com.codecool.stackoverflowtw.dao.QuestionsDAO;
 import com.codecool.stackoverflowtw.dao.answer.AnswersDao;
@@ -26,6 +27,10 @@ public class UserConverterImpl implements UserConverter {
         return result;
     }
 
+    @Override
+    public User convertNewUserDtoToUser(NewUserDTO newUserDTO) {
+        return new User(newUserDTO.username(), newUserDTO.password());
+    }
     @Override
     public UserDTO convert(User user) {
         return new UserDTO(

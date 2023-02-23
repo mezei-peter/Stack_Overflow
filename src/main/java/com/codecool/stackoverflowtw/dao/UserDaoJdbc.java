@@ -143,4 +143,43 @@ public class UserDaoJdbc implements UserDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public boolean createUser(User user) {
+
+        if (!checkIfUsernamefree(user.getName())) {
+            return false;
+        }
+
+        String query =  "Insert into users (is_super_user, name, password) Values(?, ?, ?)";
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query);
+        ) {
+            ps.setBoolean(1, user.isSuperUser());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getPassword());
+
+            int affectedRows = ps.executeUpdate();
+
+            return affectedRows > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean checkIfUsernamefree(String username) {
+        String query = "Select name from users where name = ?;";
+
+        try(Connection connection = connectionProvider.getConnection();
+            PreparedStatement ps = connection.prepareStatement(query);
+        ) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            return !rs.next();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
