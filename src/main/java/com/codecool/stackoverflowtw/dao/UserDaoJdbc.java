@@ -6,6 +6,7 @@ import com.codecool.stackoverflowtw.database.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -67,6 +68,30 @@ public class UserDaoJdbc implements UserDao {
             throw new RuntimeException(e);
         }
         return allUsers;
+    }
+
+    @Override
+    public boolean isSuperUserByUserId(int userId) {
+        String query = """
+                SELECT is_super_user
+                FROM users
+                WHERE user_id = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ResultSet resultSet = ps.executeQuery();
+
+            if (!resultSet.next()) {
+                return false;
+            }
+
+            return resultSet.getBoolean("is_super_user");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private Collection<User> getUsersById(Collection<Integer> userIds) {

@@ -7,9 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -216,6 +213,26 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
             resultSet.next();
             System.out.println(resultSet.getInt("count"));
             return resultSet.getInt("count");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean isOwnerOfQuestionByIds(int questionId, int userId) {
+        String query = """
+                SELECT question_id
+                FROM questions
+                WHERE question_id = ?
+                    AND user_id = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, questionId);
+            ps.setInt(2, userId);
+            ResultSet resultSet = ps.executeQuery();
+            return resultSet.next();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -19,4 +19,6 @@ public interface QuestionsDAO {
     Map<Integer, Integer> getAnswerCountsByQuestionIds();
 
     int getAnswerCountByQuestionId(int id);
+
+    boolean isOwnerOfQuestionByIds(int questionId, int userId);
 }
