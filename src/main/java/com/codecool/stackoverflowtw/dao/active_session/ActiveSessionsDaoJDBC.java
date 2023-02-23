@@ -6,6 +6,8 @@ import com.codecool.stackoverflowtw.database.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
 
 public class ActiveSessionsDaoJDBC implements ActiveSessionsDao {
     private final ConnectionProvider connectionProvider;
@@ -54,6 +56,40 @@ public class ActiveSessionsDaoJDBC implements ActiveSessionsDao {
                 return -1;
             }
             return resultSet.getInt("user_id");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String createSessionForUserId(int userId) {
+        String insert = """
+                INSERT INTO active_sessions (session_id, user_id)
+                VALUES (?, ?);
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement ps = connection.prepareStatement(insert)) {
+            String sessionId = UUID.randomUUID().toString();
+            ps.setString(1, sessionId);
+            ps.setInt(2, userId);
+            ps.execute();
+            return sessionId;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteSession(String sessionId) {
+        String delete = """
+                DELETE FROM active_sessions WHERE session_id = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement ps = connection.prepareStatement(delete)) {
+            ps.setString(1, sessionId);
+            return ps.executeUpdate() == 1;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

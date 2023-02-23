@@ -6,7 +6,6 @@ import com.codecool.stackoverflowtw.database.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,7 +33,7 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public User getUserByUserId(int userId) {
-        return null;
+        return getUserById(userId);
     }
 
     @Override
@@ -92,6 +91,30 @@ public class UserDaoJdbc implements UserDao {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public int getUserIdByLoginDetails(String username, String password) {
+        String query = """
+                SELECT user_id
+                FROM users
+                WHERE name = ?
+                    AND password = ?;
+                """;
+
+        try (Connection connection = connectionProvider.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, username);
+            ps.setString(2, password);
+
+            ResultSet resultSet = ps.executeQuery();
+            if (!resultSet.next()) {
+                throw new RuntimeException("The username or the password is invalid.");
+            }
+            return resultSet.getInt("user_id");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Collection<User> getUsersById(Collection<Integer> userIds) {

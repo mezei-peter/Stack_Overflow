@@ -12,4 +12,6 @@ public interface UserConverter {
     List<UserDTO> convert(List<User> users);
 
     User convertNewUserDtoToUser(NewUserDTO newUserDTO);
+
+    UserDTO convert(User user);
 }
