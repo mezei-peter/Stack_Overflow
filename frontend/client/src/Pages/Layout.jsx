@@ -1,6 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-//import { findCookie } from '../misc';
 
 
 const Layout = () => {
