@@ -1,5 +1,11 @@
 # Stackoverflow TW Project
 
+## Intro 
+A team project mainly with the focus to create a simple Java Spring backend that can
+support a Stack Overflow-esque application where users can post questions and answers. Using JDBC directly to communicate with
+PostgreSQL and Thymeleaf to render static files.
+
+## Main features
 - Main page listing all questions with details, date and answer count
 - Feature to sort questions on Main page by alphabet, date or answer count
 - Detail page of a question shows who asked it and lists all answers with date and users
@@ -13,14 +19,6 @@
 - Users list page: shows username, registration date, number of questions, number of answers
 - Feature to mark the accepted answer for the user's own question
 - Write tests for the service layer
-
-#### Extra:
-- OPTIONAL: Admin user type can delete any question or answer
-- OPTIONAL: Filter by question titles  (location: main page)
-- OPTIONAL: Feature to tag questions
-- OPTIONAL: Feature to edit questions (limited to the ones created by the user)
-- OPTIONAL: Feature to edit answers (limited to the ones created by the user)
-- OPTIONAL: Feature to calculate reputation of the user and display them differently if they are very active on the site (display reputation on user list page too)
 
 ## General requirements: 
 - Create an SQL database to store your data
